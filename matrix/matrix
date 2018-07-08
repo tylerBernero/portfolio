@@ -1,0 +1,508 @@
+#! /bin/bash   
+
+#############################
+#Anthony Bernero            #
+#April 23, 2018             #
+#Program 1 - Matrix         #
+#############################
+
+####################################################################################################################
+
+#Dims - Print the dimensions of the matrix as the number of rows, followed by a space, then the number of columns
+ dims(){
+    
+    rows=0                                                                      #create variables to keep up with the number of rows and columns within the matrix
+    cols=0
+    
+    
+    if (( $# > 1 ))                                                             #Print err message if there is more than 1 argument
+    then
+        echo -e "Error: Too many arguments!\nExiting. . ." 1>&2
+        exit 1
+    elif (( $# < 1 ))                                                           #If no arguments, takes the input from stdin and puts it into a temp file
+    then
+        cat >tempFile                                                           #store stdin into temp file
+   
+        while read myLine                                                       #while loop reads the number of lines and keeps track the total number of rows
+        do
+            rows=$(expr $rows + 1)                                              #add 1 to the rows variable for each new line
+        done <tempFile
+
+        read firstLine <tempFile                                                #get first line from file passed into function
+
+        
+        for i in $firstLine                                                     #for loop reads the number of integers in a single line in order to keep track of total number of colums
+        do
+            cols=$(expr $cols + 1)                                              #add 1 to the columns variable for each integer in the first line
+        done
+    
+        rm tempFile                                                             #remove tempFile so to not cause duplicate files
+        
+        echo $rows $cols
+    else                                                                        #Else there is one argument - a file containing a matrix
+    
+        if ! [ -e $1 ]                                                          #Check to make sure file exists
+        then
+            echo -e "Error: file is nonexistent!\nExiting. . ." 1>&2
+            exit 1
+        fi
+        
+        while read myLine                                                       #while loop reads the number of lines and keeps track the total number of rows
+        do
+            rows=$(expr $rows + 1)                                              #add 1 to the rows variable for each new line
+        done <$1
+        
+        read firstLine <$1                                                      #get first line from file passed into function
+
+        for i in $firstLine                                                     #for loop reads the number of integers in a single line in order to keep track of total number of colums
+        do
+            cols=$(expr $cols + 1)                                              #add 1 to the columns variable for each integer in the first line
+        done
+        
+        echo $rows $cols
+    fi
+}
+
+####################################################################################################################
+
+
+#Transpose - Reflect the elements of the matrix along the main diagonal
+transpose(){
+
+    tempFile="tempfile"                                                         #create temp files and variables
+    tempRow="tempRowFiles"
+    cols=0
+
+
+
+
+    if (( $# > 1 ))                                                             #Print err message if there is more than 1 argument
+    then
+        echo -e "Error: Too many arguments!\nExiting. . ." 1>&2
+        exit 1
+    elif (( $# < 1 ))                                                           #If no arguments, takes the input from stdin and puts it into a temp file
+    then
+        cat >stdinFile                                                          #store stdin into temp file
+        
+        read firstLine <stdinFile                                               #get number of columns and store in temp file less elegantly
+        
+        for i in $firstLine                                                     #for loop reads the number of integers in a single line in order to keep track of total number of colums
+        do
+            cols=$(expr $cols + 1)                                              #add 1 to the columns variable for each integer in the first line
+        done
+        
+        for ((c=1; c<= $cols; c++))
+        do 
+            cut -f$c stdinFile>$tempRow
+            cat $tempRow | tr '\n' '\t' >> $tempFile
+            truncate -s-1 $tempFile                                             #Remove extra tab character at end - source: https://stackoverflow.com/questions/27305177/how-can-i-remove-the-last-character-of-a-file-in-unix
+            echo >>$tempFile                                                    #Add new line to keep with standard format of matrix
+        done
+
+        cat $tempFile
+        
+        rm stdinFile
+        rm tempfile
+        rm tempRowFiles
+        
+    else                                                                        #Else there is one argument - a file containing a matrix
+    
+        if ! [ -e $1 ]                                                          #Check to make sure file exists
+        then
+            echo -e "Error: file is nonexistent!\nExiting. . ." 1>&2
+            exit 1
+        fi
+        
+        read firstLine <$1                                                      #get number of columns and store in temp file less elegantly
+        
+        for i in $firstLine                                                     #for loop reads the number of integers in a single line in order to keep track of total number of colums
+        do
+            cols=$(expr $cols + 1)                                              #add 1 to the columns variable for each integer in the first line
+        done
+        
+        for ((c=1; c<= $cols; c++))                                             #for each column, cut the column and make it a row
+        do 
+            cut -f$c $1>$tempRow
+            cat $tempRow | tr '\n' '\t' >> $tempFile
+            truncate -s-1 $tempFile                                             #Remove extra tab character at end - source: https://stackoverflow.com/questions/27305177/how-can-i-remove-the-last-character-of-a-file-in-unix
+            echo >>$tempFile                                                    #Add new line to keep with standard format of matrix
+        done
+        
+        cat $tempFile
+    
+
+        rm tempfile                                                             #remove temp files
+        rm tempRowFiles
+    fi
+}
+
+####################################################################################################################
+
+
+#Mean - Takes an MxN matrix and returns 1xN row vector, where first element is mean of column one, etc.
+mean(){
+    
+    tempFile="tempfile"                                                         #create temp files and variables
+    tempLine="templine"
+    tempRow="temprow"
+    tempCol="tempcol"
+    meanRow="meanrow"
+    outPut="output"
+    rows=0
+    cols=0
+    sum=0
+    mean=0
+    
+    if (( $# > 1 ))                                                            #Print err message if there is more than 1 argument
+    then
+        echo -e "Error: Too many arguments!\nExiting. . ." 1>&2
+        exit 1
+    elif (( $# < 1 ))                                                           #If no arguments, takes the input from stdin and puts it into a temp file
+    then
+        cat >$tempFile                                                          #store stdin into temp file
+   
+        while read myLine                                                       #while loop reads the number of lines and keeps track the total number of rows
+        do
+            rows=$(expr $rows + 1)                                              #add 1 to the rows variable for each new line
+        done <$tempFile
+        
+        
+        read firstLine <$tempFile                                               #get first line from file passed into function
+        for i in $firstLine                                                     #for loop reads the number of integers in a single line in order to keep track of total number of colums
+        do
+            cols=$(expr $cols + 1)                                              #add 1 to the columns variable for each integer in the first line
+        done
+        
+        for ((i=1; i <= $cols; i++))
+        do
+            cut -f$i $tempFile >$tempCol                                        #cuts the first column from matrix
+            cat $tempCol | tr '\n' '\t' >>$tempRow                              #transposes temp column into row for easy reading
+            
+            cat $tempRow >$tempLine
+            for j in $(cat $tempLine)                                           #Loop through the row to get sum
+            do
+                sum=$(expr $sum + $j)
+            done
+            
+            mean=$((($sum+($rows/2)*(($sum>0)*2-1))/$rows))                     #formula for mean provided to us on canvas
+            
+            sum=0
+            echo "$mean" >>$meanRow                                             #output mean to meanRow file
+            echo >$tempRow
+        done
+        
+        cat $meanRow | tr '\n' '\t' >>$outPut                                   #transposes temp column into row for easy reading
+        truncate -s-1 $outPut
+        echo >>$outPut
+        cat $outPut
+        
+        rm tempfile
+        rm meanrow
+        rm tempcol
+        rm temprow
+        rm templine
+        rm output
+    else                                                                        #Else there is one argument - a file containing a matrix
+    
+        if ! [ -e $1 ]                                                          #Check to make sure file exists
+        then
+            echo -e "Error: file is nonexistent!\nExiting. . ." 1>&2
+            exit 1
+        fi
+        
+        cat $1 >$tempFile
+        
+        while read myLine                                                       #while loop reads the number of lines and keeps track the total number of rows
+        do
+            rows=$(expr $rows + 1)                                              #add 1 to the rows variable for each new line
+        done <$tempFile
+        
+        
+        read firstLine <$tempFile                                               #get first line from file passed into function
+        for i in $firstLine                                                     #for loop reads the number of integers in a single line in order to keep track of total number of colums
+        do
+            cols=$(expr $cols + 1)                                              #add 1 to the columns variable for each integer in the first line
+        done
+        
+        for ((i=1; i <= $cols; i++))
+        do
+            cut -f$i $tempFile >$tempCol                                        #cuts the first column from matrix
+            cat $tempCol | tr '\n' '\t' >>$tempRow                              #transposes temp column into row for easy reading
+            
+            cat $tempRow >$tempLine
+            for j in $(cat $tempLine)                                           #Loop through the row to get sum
+            do
+                sum=$(expr $sum + $j)
+            done
+
+            
+            mean=$((($sum+($rows/2)*(($sum>0)*2-1))/$rows))                     #formula for mean provided to us on canvas
+            
+            sum=0
+            echo "$mean" >>$meanRow                                             #output mean to meanRow file
+            echo >$tempRow
+        done
+        
+        cat $meanRow | tr '\n' '\t' >>$outPut                                   #transposes temp column into row for easy reading
+        truncate -s-1 $outPut
+        echo >>$outPut
+        cat $outPut
+        
+        rm tempfile                                                             #remove temp files
+        rm meanrow
+        rm tempcol
+        rm temprow
+        rm templine
+        rm output
+    fi
+}
+
+####################################################################################################################
+
+
+#Add - Takes 2 MxN matrices and adds them together element wise to produce an MxN Matrix
+add(){
+    
+    tempFile="tempfile"                                                         #create temp files and variables
+    lineFile1="linefile1"
+    lineFile2="linefile2"
+    newMatrix="newmatrix"
+    newMatrix2="newmatrix2"
+    finalFile="finalfile"
+    fileSize=0
+    rows=0
+    cols=0
+    sum=0
+    
+    if (( $# > 2 ))                                                             #Print err message if there are more than 2 arguments
+    then
+        echo -e "Error: Too many arguments!\nExiting. . ." 1>&2
+        exit 1
+    elif (( $# < 2 ))                                                           #Print err message if there are less than 2 arguments
+    then
+        echo -e "Error: Too few arguments!\nExiting. . ." 1>&2
+        exit 1
+    else                                                                        #Else there are 2 arguments
+        if ! [ -e $1 ] && ! [ -e $2 ]                                           #Print err if both files are nonexistent
+        then
+            echo -e "Error: Files $1 and $2 are nonexistent!\nExiting. . ." 1>&2
+            exit 1
+        elif ! [ -e $1 ]                                                        #Print err message if one file is nonexistent
+        then
+            echo -e "Error: File $1 is nonexistent!\nExiting. . ." 1>&2
+            exit 1
+        elif ! [ -e $2 ]                                                        #Print err message if one file is nonexistent
+        then
+            echo -e "Error: File $2 is nonexistent!\nExiting. . ." 1>&2
+            exit 1
+        fi
+        
+        m1dims=$(dims $1)                                                       #Find dimensions of matrices to ensure they are add compatible
+        m2dims=$(dims $2)
+
+        if [ "$m1dims" != "$m2dims" ]
+        then
+            echo -e "Error: $1 and $2 are not the same size.\nCannot add.\nExiting. . ." 1>&2
+            exit 1
+        fi
+        
+        while read myLine                                                       #while loop reads the number of lines and keeps track the total number of rows
+        do
+            rows=$(expr $rows + 1)                                              #add 1 to the rows variable for each new line
+        done <$1
+        
+        read firstLine <$1                                                      #for loop reads the number of integers in a single line in order to keep track of total number of colums
+        
+        for i in $firstLine                                                     #for loop reads the number of integers in a single line in order to keep track of total number of colums
+        do
+            cols=$(expr $cols + 1)                                              #add 1 to the columns variable for each integer in the first line
+        done
+        
+        
+        for ((i=1; i <= $rows; i++))                                            #loop through all rows
+        do
+            head -$i $1 | tail -1 >$lineFile1                                   #store line $i of each file into respective temp files
+            head -$i $2 | tail -1 >$lineFile2
+            
+            for ((j=1; j <= $cols; j++))                                        #loop through the number of columns
+            do
+                cut -f$j $lineFile1>$tempFile                                   #store single integer from each file into single temp file
+                cut -f$j $lineFile2>>$tempFile                                  
+               
+               
+               sum=0                                                            #reset sum value
+                
+                for k in $(cat $tempFile)                                       #adds the 2 elements in tempFile together and store in variable sum
+                do
+                    sum=$(expr $sum + $k)
+                done
+                
+                echo -e "$sum" >>$newMatrix                                     #store sum in newMatrix
+            done
+        done
+
+        for ((i=1; i <= $rows; i++))                                            #loop through rows of newMatrix
+        do
+            head -$(( $i * $cols)) $newMatrix | tail -$cols >$newMatrix2        #transpose appropriate number of integers intro rows of finalFile
+            cat $newMatrix2 | tr '\n' '\t' >> $finalFile                        #transpose those rows into a single row
+            truncate -s-1 $finalFile                                            
+            echo >>$finalFile
+
+        done
+            
+            echo -e "$(cat $finalFile)" 
+
+        rm tempfile                                                             #remove temp files
+        rm linefile1
+        rm linefile2
+        rm newmatrix
+        rm newmatrix2
+        rm finalfile
+    fi
+}
+
+
+####################################################################################################################
+
+
+#Multiply - take MxN and NxP matrices and produce MxP matrix
+multiply(){
+    
+    m2Tran="m2tran"                                                             #create temp files and variables
+    tempLine="templine"
+    tempLine2="templine2"
+    multMat="multmat"
+    multMat2="multmat2"
+    addMat="addmat"
+    addMat2="addmat2"
+    finalMat="finalmat"
+    finalMat2="finalmat2"
+    finalMat3="finalmat3"
+    rows1=0
+    cols1=0
+    rows2=0
+    cols2=0
+    prod=1
+    sum=0
+    
+    if (( $# > 2 ))                                                             #Print err message if there are more than 2 arguments
+    then
+        echo -e "Error: Too many arguments!\nExiting. . ." 1>&2
+        exit 1
+    elif (( $# < 2 ))                                                           #Print err message if there are less than 2 arguments
+    then
+        echo -e "Error: Too few arguments!\nExiting. . ." 1>&2
+        exit 1
+    else                                                                        #2 arguments
+        if ! [ -e $1 ] && ! [ -e $2 ]                                           #Print err if both files are nonexistent
+        then
+            echo -e "Error: Files $1 and $2 are nonexistent!\nExiting. . ." 1>&2
+            exit 1
+        elif ! [ -e $1 ]                                                        #Print err message if one file is nonexistent
+        then
+            echo -e "Error: File $1 is nonexistent!\nExiting. . ." 1>&2
+            exit 1
+        elif ! [ -e $2 ]                                                        #Print err message if one file is nonexistent
+        then
+            echo -e "Error: File $2 is nonexistent!\nExiting. . ." 1>&2
+            exit 1
+        fi
+                
+        read firstLine <$1                                                      #get first line from file passed into function
+        for i in $firstLine                                                     #for loop reads the number of integers in a single line in order to keep track of total number of colums
+        do
+            cols1=$(expr $cols1 + 1)                                            #add 1 to the columns variable for each integer in the first line
+        done
+        
+        while read myLine                                                       #while loop reads the number of lines and keeps track the total number of rows
+        do
+            rows2=$(expr $rows2 + 1)                                            #add 1 to the rows variable for each new line
+        done <$2
+        
+        if [ $rows2 -ne $cols1 ]
+        then
+            echo -e "Error: $1 and $2 are not the compatible sizes.\nCannot multiply.\nExiting. . ." 1>&2
+            exit 1
+        fi
+        
+        read firstLine <$2                                                      #get first line from file passed into function
+        for i in $firstLine                                                     #for loop reads the number of integers in a single line in order to keep track of total number of colums
+        do
+            cols2=$(expr $cols2 + 1)                                            #add 1 to the columns variable for each integer in the first line
+        done
+    
+        transpose $2 >$m2Tran
+        
+        while read myLine                                                       #while loop reads the number of lines and keeps track the total number of rows
+        do
+            rows1=$(expr $rows1 + 1)                                            #add 1 to the rows variable for each new line
+        done <$1
+
+        
+        for ((i=1; i <= $rows1; i++))                                           #loop through each line of first matrix
+        do
+            head -$i $1 | tail -1 >$tempLine                                    #take each row of matrix 1 and store in tempLine
+            
+            for ((j=1; j <= $cols2; j++ ))
+            do
+                head -$j $m2Tran | tail -1 >$tempLine2                          #take each row of matrix 1 and store in tempLine
+                
+                for ((k=1; k <= $rows2; k++))                                   #take each column and store in a separate file to be multiplied
+                do
+                    cut -f$k $tempLine >$multMat
+                    cut -f$k $tempLine2 >>$multMat
+                    
+                    cat $multMat | tr '\n' '\t' > $multMat2                     #transpose multMat into a single row for multmat2
+                    
+                    prod=1                                                      #restore prod
+                   for l in $(cat $multMat2)
+                    do
+                        prod=$(($prod * $l))
+                    done
+                    
+                    echo "$prod" >>$addMat                                      #store new prod in addmat
+                done
+                
+                cat $addMat | tr '\n' '\t' > $addMat2                           #transpose addmat into a single row for addmat2
+                
+                sum=0                                                           #restore sum
+                for k in $(cat $addMat2)
+                do
+                    sum=$(expr $sum + $k)
+                done
+                
+                echo "$sum" >>$finalMat                                         #store sum in finalMat
+                
+                echo >$addMat                                                   #empty addmat matrices and remove extra new line
+                echo >$addMat2
+                truncate -s-1 $addMat
+                truncate -s-1 $addMat2
+            done
+        done
+        
+        
+        for ((i=1; i <= $rows1; i++))                                           #take single column file and transform it into valid matrix format 
+        do
+            head -$(( $i * $cols2)) $finalMat | tail -$cols2 >$finalMat2        #takes groups of ints the size of columns and formats it 
+            cat $finalMat2 | tr '\n' '\t' >> $finalMat3
+            truncate -s-1 $finalMat3                                            #removes trailing tab and new line
+            echo >>$finalMat3                                                   #restores the new line
+        done
+        
+        echo -e "$(cat $finalMat3)"
+
+        
+        rm m2tran                                                               #remove temp files
+        rm templine
+        rm templine2
+        rm multmat
+        rm multmat2
+        rm addmat
+        rm addmat2
+        rm finalmat
+        rm finalmat2
+        rm finalmat3
+    fi
+}
+
+$1 "${@:2}"                                                                     #Calls the function passed in by argument 1 with remaining arguments passed to it

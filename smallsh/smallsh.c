@@ -14,7 +14,6 @@
 #include <fcntl.h>
 #include <signal.h>
 
-//Much code provided by Brewster
 //Array of strings extra help: https://www.youtube.com/watch?reload=9&v=pB-nvbCg3yc
 //Strtok extra help: https://www.tutorialspoint.com/c_standard_library/c_function_strtok.htm
 

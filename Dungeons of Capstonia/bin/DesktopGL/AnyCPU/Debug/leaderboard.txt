@@ -1,0 +1,10 @@
+Ty,123,4,Wolf,11/21/2018
+Ty,112,3,Zombie,11/21/2018
+Ty,94,2,Lizardman,11/21/2018
+Ty,84,2,Goblin,11/21/2018
+Ty,81,5,Stone Golem,11/20/2018
+Ty,81,2,Skeleton,11/20/2018
+Ty,72,2,Danger Noodle,11/20/2018
+Tyler,66,2,Goblin,11/27/2018
+Ty,57,3,Giant Spider,11/24/2018
+Ty,0,4,Wolf,11/20/2018

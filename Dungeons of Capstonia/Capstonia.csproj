@@ -1,0 +1,314 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C2B39290-B0AB-42FF-9184-C66F31A65527}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Capstonia</RootNamespace>
+    <AssemblyName>Capstonia</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;LINUX</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\Standard.cs" />
+    <Compile Include="Core\Actor.cs" />
+    <Compile Include="Core\GameState.cs" />
+    <Compile Include="Items\ArmorTier\BloodChest.cs" />
+    <Compile Include="Items\ArmorTier\DiamondChest.cs" />
+    <Compile Include="Items\ArmorTier\EmeraldChest.cs" />
+    <Compile Include="Items\ArmorTier\GoldChest.cs" />
+    <Compile Include="Items\ArmorTier\LeatherChest.cs" />
+    <Compile Include="Core\Directions.cs" />
+    <Compile Include="Core\Monster.cs" />
+    <Compile Include="Core\Exit.cs" />
+    <Compile Include="Core\Item.cs" />
+    <Compile Include="Core\LevelGrid.cs" />
+    <Compile Include="Core\MonsterCommands.cs" />
+    <Compile Include="Core\MonsterType.cs" />
+    <Compile Include="Core\ItemType.cs" />
+    <Compile Include="Core\ObjectType.cs" />
+    <Compile Include="Core\Player.cs" />
+    <Compile Include="Core\Score.cs" />
+    <Compile Include="GameManager.cs" />
+    <Compile Include="Interfaces\IActor.cs" />
+    <Compile Include="Interfaces\IBehavior.cs" />
+    <Compile Include="Interfaces\IDrawable.cs" />
+    <Compile Include="Interfaces\IItem.cs" />
+    <Compile Include="Items\Armor.cs" />
+    <Compile Include="Items\ArmorTier\SteelChest.cs" />
+    <Compile Include="Items\Bone.cs" />
+    <Compile Include="Items\Book.cs" />
+    <Compile Include="Items\Chest.cs" />
+    <Compile Include="Items\Food.cs" />
+    <Compile Include="Items\Gem.cs" />
+    <Compile Include="Items\Potion.cs" />
+    <Compile Include="Items\Ring.cs" />
+    <Compile Include="Items\Skull.cs" />
+    <Compile Include="Items\Weapon.cs" />
+    <Compile Include="Items\WeaponTier\AxeGold.cs" />
+    <Compile Include="Items\WeaponTier\LanceVorpal.cs" />
+    <Compile Include="Items\WeaponTier\SwordAcid.cs" />
+    <Compile Include="Items\WeaponTier\SwordDiamond.cs" />
+    <Compile Include="Items\WeaponTier\SwordHellfire.cs" />
+    <Compile Include="Items\WeaponTier\SwordLightning.cs" />
+    <Compile Include="Monsters\Banshee.cs" />
+    <Compile Include="Monsters\Barbarian.cs" />
+    <Compile Include="Monsters\Bat.cs" />
+    <Compile Include="Monsters\Demon.cs" />
+    <Compile Include="Monsters\Dragon.cs" />
+    <Compile Include="Monsters\DrowElf.cs" />
+    <Compile Include="Monsters\FireElemental.cs" />
+    <Compile Include="Monsters\Goblin.cs" />
+    <Compile Include="Monsters\Lich.cs" />
+    <Compile Include="Monsters\Lizardman.cs" />
+    <Compile Include="Monsters\Minotaur.cs" />
+    <Compile Include="Monsters\Mummy.cs" />
+    <Compile Include="Monsters\Ogre.cs" />
+    <Compile Include="Monsters\Rat.cs" />
+    <Compile Include="Monsters\Skeleton.cs" />
+    <Compile Include="Monsters\Slime.cs" />
+    <Compile Include="Monsters\Snake.cs" />
+    <Compile Include="Monsters\Spider.cs" />
+    <Compile Include="Monsters\Spirit.cs" />
+    <Compile Include="Monsters\StoneGolem.cs" />
+    <Compile Include="Monsters\Troll.cs" />
+    <Compile Include="Monsters\Valkyrie.cs" />
+    <Compile Include="Monsters\Vampire.cs" />
+    <Compile Include="Monsters\Wolf.cs" />
+    <Compile Include="Monsters\Wraith.cs" />
+    <Compile Include="Monsters\Zombie.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Systems\CommandSystem.cs" />
+    <Compile Include="Systems\Equipment.cs" />
+    <Compile Include="Systems\InventorySystem.cs" />
+    <Compile Include="Systems\KeyboardStringReader.cs" />
+    <Compile Include="Systems\LevelGenerator.cs" />
+    <Compile Include="Systems\Credits.cs" />
+    <Compile Include="Systems\Leaderboard.cs" />
+    <Compile Include="Systems\Instructions.cs" />
+    <Compile Include="Systems\Confirmation.cs" />
+    <Compile Include="Systems\PlayerCreation.cs" />
+    <Compile Include="Systems\MainMenu.cs" />
+    <Compile Include="Systems\MessageLog.cs" />
+    <Compile Include="Core\UserInputCommands.cs" />
+    <Compile Include="Systems\UserInputKeyboard.cs" />
+    <Compile Include="Monsters\Beholder.cs" />
+    <Compile Include="Core\MapLevel.cs" />
+    <Compile Include="Items\BookTier\StrengthBook.cs" />
+    <Compile Include="Items\BookTier\DexterityBook.cs" />
+    <Compile Include="Items\BookTier\ConstitutionBook.cs" />
+    <Compile Include="Items\BookTier\EvilBook.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="RogueSharp, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\RogueSharp.4.1.0\lib\net40\RogueSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icon.ico" />
+    <EmbeddedResource Include="Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\SDL2.dll">
+      <Link>x86\SDL2.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\SDL2.dll">
+      <Link>x64\SDL2.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\soft_oal.dll">
+      <Link>x86\soft_oal.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\soft_oal.dll">
+      <Link>x64\soft_oal.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\libSDL2-2.0.so.0">
+      <Link>x86\libSDL2-2.0.so.0</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\libSDL2-2.0.so.0">
+      <Link>x64\libSDL2-2.0.so.0</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\libopenal.so.1">
+      <Link>x86\libopenal.so.1</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\libopenal.so.1">
+      <Link>x64\libopenal.so.1</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\libSDL2-2.0.0.dylib">
+      <Link>libSDL2-2.0.0.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\libopenal.1.dylib">
+      <Link>libopenal.1.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll.config">
+      <Link>MonoGame.Framework.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="app.manifest" />
+    <None Include="Content\MainFont.spritefont" />
+    <None Include="Content\PressStart2P-Regular.ttf" />
+    <None Include="Content\PressStart2P.spritefont" />
+    <None Include="packages.config" />
+    <None Include="Content\dark-knight-large.png" />
+    <None Include="Content\Fonts\MainFont.spritefont" />
+    <None Include="Content\Fonts\PressStart2P-Regular.ttf" />
+    <None Include="Content\Fonts\PressStart2P.spritefont" />
+    <None Include="Content\Fonts\PressStart2PSmall.spritefont" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\armor.png" />
+    <Content Include="Content\armor_blood_chest.png" />
+    <Content Include="Content\armor_diamond_chest.png" />
+    <Content Include="Content\armor_emerald_chest.png" />
+    <Content Include="Content\armor_gold_chest.png" />
+    <Content Include="Content\armor_leather_chest.png" />
+    <Content Include="Content\armor_steel_chest.png" />
+    <Content Include="Content\banshee_1.png" />
+    <Content Include="Content\barbarian_f_1.png" />
+    <Content Include="Content\bat_giant_1.png" />
+    <Content Include="Content\beholder_deep_1.png" />
+    <Content Include="Content\book.png" />
+    <Content Include="Content\book_constitution.png" />
+    <Content Include="Content\book_dexterity.png" />
+    <Content Include="Content\book_evil.png" />
+    <Content Include="Content\book_strength.png" />
+    <Content Include="Content\chest_gold_open.png" />
+    <Content Include="Content\constitution.png" />
+    <Content Include="Content\dark-knight-large.png" />
+    <Content Include="Content\demon_red_1.png" />
+    <Content Include="Content\dexterity.png" />
+    <Content Include="Content\dknight_1.png" />
+    <Content Include="Content\door_stone_11.png" />
+    <Content Include="Content\door_stone_3.png" />
+    <Content Include="Content\door_stone_4.png" />
+    <Content Include="Content\dragon_green_1.png" />
+    <Content Include="Content\drow_1.png" />
+    <Content Include="Content\drumstick.png" />
+    <Content Include="Content\elemental_fire_1.png" />
+    <Content Include="Content\experience.png" />
+    <Content Include="Content\floor_extra_12.png" />
+    <Content Include="Content\floor_set_grey_8.png" />
+    <Content Include="Content\gem.png" />
+    <Content Include="Content\goblin_1.png" />
+    <Content Include="Content\golem_stone_1.png" />
+    <Content Include="Content\health.png" />
+    <Content Include="Content\inventory_gui.png" />
+    <Content Include="Content\level.png" />
+    <Content Include="Content\lich_1.png" />
+    <Content Include="Content\lizardman_blue_1.png" />
+    <Content Include="Content\main-menu.png" />
+    <Content Include="Content\minotaur_1.png" />
+    <Content Include="Content\monster_stats_gui.png" />
+    <Content Include="Content\MS-AmbientDungeon.wav" />
+    <Content Include="Content\MS-BarrenDungeon.wav" />
+    <Content Include="Content\MS-DangerousDungeon.wav" />
+    <Content Include="Content\MS-DarkDungeon.wav" />
+    <Content Include="Content\MS-Melancholy Ambience.wav" />
+    <Content Include="Content\MS-PrettyDungeon.wav" />
+    <Content Include="Content\mummy_1.png" />
+    <Content Include="Content\ogre_1.png" />
+    <Content Include="Content\player_equipment_gui.png" />
+    <Content Include="Content\player_stats_gui.png" />
+    <Content Include="Content\potion.png" />
+    <Content Include="Content\rat_giant_1.png" />
+    <Content Include="Content\skeleton_1.png" />
+    <Content Include="Content\slime_purple_1.png" />
+    <Content Include="Content\snake_giant_1.png" />
+    <Content Include="Content\spider_black_giant_1.png" />
+    <Content Include="Content\spirit_1.png" />
+    <Content Include="Content\strength.png" />
+    <Content Include="Content\troll_1.png" />
+    <Content Include="Content\valkyrie_b_1.png" />
+    <Content Include="Content\vampire_lord_1.png" />
+    <Content Include="Content\wall_stone_11.png" />
+    <Content Include="Content\weapon_axe_gold.png" />
+    <Content Include="Content\weapon_club.png" />
+    <Content Include="Content\weapon_lance_vorpal.png" />
+    <Content Include="Content\weapon_sword_acid.png" />
+    <Content Include="Content\weapon_sword_diamond.png" />
+    <Content Include="Content\weapon_sword_hellfire.png" />
+    <Content Include="Content\weapon_sword_lightning.png" />
+    <Content Include="Content\wolf_black_1.png" />
+    <Content Include="Content\wraith_a_1.png" />
+    <Content Include="Content\zombie_a_1.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

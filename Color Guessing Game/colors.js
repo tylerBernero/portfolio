@@ -1,3 +1,8 @@
+/*Author: Tyler Bernero
+Date Created: December 2018
+Course: Web Developer Bootcampt (Udemy)
+*/
+
 // NOTE: Change all style.background to style.backgroundColor
 // It is compatible with more browsers
 
